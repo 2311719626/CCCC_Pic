@@ -1,6 +1,6 @@
 ### 关于Picgo集成
 
-    -- author: xiewenjun
+    -- author: wendisx
     -- 关于集成picgo的一个构想
 
 #### 需求
