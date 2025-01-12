@@ -1,7 +1,7 @@
 ### 关于Picgo集成
 
-    -- author: wendisx
-    -- 关于集成picgo的一个构想
+    -- written by: wendisx
+    -- 关于集成picgo的一个实现
 
 #### 需求
 
