@@ -32,9 +32,6 @@ const upload = multer({ storage: storage })
 const picgo = new PicGo(PIC_CONFIG)
 const app=express()
 
-//监听picgo事件
-
-
 //全局中间件
 app.use(cors())
 
@@ -78,7 +75,7 @@ app.post('/upload',upload.any(),(req,res)=>{
             const images = remoteImages.map(image => image.imgUrl)
             return images
         }
-        //异步映射
+        //异步映射 TODO: 映射到数据库
         (async ()=>{
             const images = await getImages()
             const picInfo = {
