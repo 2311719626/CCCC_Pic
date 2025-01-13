@@ -20,7 +20,7 @@
 相关配置文件目录:`~/.picgo/config.json`，由于集成性，建议直接在项目初始化`picgo`时指定项目中的配置文件：
 
 ```javascript
-import {Picgo} from 'picgo'
+const Picgo = require('picgo')
 const picgo = new Picgo('/path/to/config')
 ```
 
@@ -114,4 +114,23 @@ const picgo = new Picgo('/path/to/config')
 }
 ```
 
-4、修改问题
+4、修改问题，优化接口调用
+
+
+#### 使用
+
+1、clone仓库到本地
+
+`git clone git@github.com:2311719626/CCCC_Pic.git`
+
+2、进入`src`目录，安装依赖
+
+`cd CCCC_Pic/src && npm i`
+
+3、在项目根目录下创建图床配置文件
+
+`touch picgo.json`
+
+4、在`src`目录运行项目，使用浏览器访问`http://localhost:3000`
+
+`npm start`
