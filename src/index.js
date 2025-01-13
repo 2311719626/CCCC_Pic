@@ -60,9 +60,7 @@ app.get('/upload',(req,res)=>{
 app.post('/upload',upload.any(),(req,res)=>{
     try {
         const localImages = req.files.map(image => image.path)
-        const remoteImages = (async ()=>{
-            return await picgo.upload(localImages)
-        })()
+        const remoteImages = picgo.upload(localImages)
         const images = remoteImages.map(image => image.imgUrl)
         const picInfo = {
             ...req.body,
