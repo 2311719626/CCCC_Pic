@@ -1,4 +1,5 @@
 src/node_modules
+src/images
 package-lock.json
 pic-github.json
-pic.http
+pic.log

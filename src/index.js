@@ -1,24 +1,87 @@
 const express = require('express')
 const {PicGo} = require('picgo')
 const path = require('node:path')
-const multer = require('multer') 
+const fs = require('node:fs')
+const multer = require('multer')
+const cors = require('cors')
 
-const upload = multer({dest: "../img"})
-const picgo = new PicGo('../pic-github.json')
+//环境变量
+const PORT=3000
+const IP='0.0.0.0'
+const PIC_CONFIG='../pic-github.json'
+
+//配置storage规则
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        //自动创建临时文件目录
+        const picDir = 'images'
+        const uploadTmpDir = path.join(__dirname,picDir)
+        if(!fs.existsSync(uploadTmpDir)){
+            fs.mkdirSync(uploadTmpDir,{recursive: false})
+        }
+        cb(null, uploadTmpDir)
+    },
+    filename: function (req, file, cb) {
+        //定义上传的文件名
+        cb(null, `${Date.now()}_${file.originalname}`)
+    }
+  })
+
+const upload = multer({ storage: storage })
+const picgo = new PicGo(PIC_CONFIG)
 const app=express()
 
-const port=3000
-const ip='0.0.0.0'
+//全局中间件
+app.use(cors())
 
+//选择主页
+app.get('/',(req,res)=>{
+    const filePath = path.join(__dirname,'public','index.html')
+    res.sendFile(filePath,(err)=>{
+        if(err){
+            console.log(err)
+            res.status(500).send("500 Server Wrong!")
+        }
+    })
+})
+
+//上传文件页面
 app.get('/upload',(req,res)=>{
-    res.send("hello picgo!")
+    const filePath = path.join(__dirname,'public','upload.html')
+    res.sendFile(filePath,(err)=>{
+        if(err){
+            console.log(err)
+            res.status(500).send("500 Server Wrong!")
+        }
+    })
 })
 
+//上传图片
 app.post('/upload',upload.any(),(req,res)=>{
-    console.log(req.files,req.body)
-    res.send("great") 
+    try {
+        const localImages = req.files.map(image => image.path)
+        const remoteImages = (async ()=>{
+            return await picgo.upload(localImages)
+        })()
+        const images = remoteImages.map(image => image.imgUrl)
+        const picInfo = {
+            ...req.body,
+            images: images
+        }
+        console.log(picInfo)
+        res.json({
+            success: true,
+            message: 'File upload success!'
+        })
+    } catch (error) {
+        console.log(error)
+        res.json({
+            success: false,
+            message: 'File upload failed!'
+        })
+    }
 })
 
-app.listen(port,ip,()=>{
-    console.log("listen to http://localhost:"+port)
+app.listen(PORT,IP,()=>{
+    console.log("listen to http://localhost:"+PORT)
 })
