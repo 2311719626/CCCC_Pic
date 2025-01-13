@@ -86,7 +86,6 @@ app.post('/upload',upload.any(),(req,res)=>{
             }
             console.log(picInfo)
         })()
-        
         res.json({
             success: true,
             message: 'File upload success!'

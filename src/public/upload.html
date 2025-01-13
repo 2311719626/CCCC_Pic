@@ -116,18 +116,18 @@
     <form id="uploadForm" class="main" action="http://127.0.0.1:3000/upload" method="post" enctype="multipart/form-data">
         <div class="form-row">
             <label for="category">Enter picture category:</label>
-            <input type="text" id="category" name="category" placeholder="Category">
+            <input type="text" id="category" name="category" placeholder="Category" required>
         </div>
         <div class="form-row">
             <label for="tag">Enter picture tag:</label>
-            <input type="text" id="tag" name="tag" placeholder="Tag">
+            <input type="text" id="tag" name="tag" placeholder="Tag" required>
         </div> 
         <div class="form-row">
             <label for="file">Select pictures:</label>
             <div class="file-upload-wrapper">
                 <span class="custom-file-label" id="fileLabel">No files selected</span>
                 <button type="button" class="custom-file-button" onclick="document.getElementById('file').click()">Browse</button>
-                <input type="file" id="file" name="images" multiple onchange="updateFileLabel(this)">
+                <input type="file" id="file" name="images" multiple onchange="updateFileLabel(this)" required>
             </div>
         </div>
         <div class="form-row">
