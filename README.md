@@ -1,6 +1,5 @@
 ### 关于Picgo集成
 
-    -- written by: wendisx
     -- 关于集成picgo的一个实现
 
 #### 需求
@@ -106,7 +105,7 @@ const picgo = new Picgo('/path/to/config')
 ```js
 {
     category: "山和水",
-    tag: 雪山和海水
+    tag: "雪山和海水",
     images: [
         '...',
         '...'
