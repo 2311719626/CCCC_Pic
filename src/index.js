@@ -31,6 +31,11 @@ const upload = multer({ storage: storage })
 const picgo = new PicGo(PIC_CONFIG)
 const app=express()
 
+//绑定picgo事件
+// picgo.on('afterUpload',ctx =>{
+//     console.log(ctx.output)
+// })
+
 //全局中间件
 app.use(cors())
 
@@ -59,14 +64,29 @@ app.get('/upload',(req,res)=>{
 //上传图片
 app.post('/upload',upload.any(),(req,res)=>{
     try {
+        //本地图片路径
         const localImages = req.files.map(image => image.path)
-        const remoteImages = picgo.upload(localImages)
-        const images = remoteImages.map(image => image.imgUrl)
-        const picInfo = {
+        //上传图片
+        const picUpload = async ()=>{
+            const result = await picgo.upload(localImages)
+            return result
+        }
+        //获取图片实际url
+        const getImages = async ()=>{
+            const remoteImages = await picUpload()
+            const images = remoteImages.map(image => image.imgUrl)
+            return images
+        }
+        //异步映射
+        (async ()=>{
+            const images = await getImages()
+            const picInfo = {
             ...req.body,
             images: images
-        }
-        console.log(picInfo)
+            }
+            console.log(picInfo)
+        })()
+        
         res.json({
             success: true,
             message: 'File upload success!'
