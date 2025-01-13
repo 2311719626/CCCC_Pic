@@ -4,6 +4,7 @@ const path = require('node:path')
 const fs = require('node:fs')
 const multer = require('multer')
 const cors = require('cors')
+const { error } = require('node:console')
 
 //环境变量
 const PORT=3000
@@ -31,10 +32,8 @@ const upload = multer({ storage: storage })
 const picgo = new PicGo(PIC_CONFIG)
 const app=express()
 
-//绑定picgo事件
-// picgo.on('afterUpload',ctx =>{
-//     console.log(ctx.output)
-// })
+//监听picgo事件
+
 
 //全局中间件
 app.use(cors())
@@ -65,7 +64,9 @@ app.get('/upload',(req,res)=>{
 app.post('/upload',upload.any(),(req,res)=>{
     try {
         //本地图片路径
-        const localImages = req.files.map(image => image.path)
+        const files = req.files
+        const localImages = files.map(image => image.path)
+
         //上传图片
         const picUpload = async ()=>{
             const result = await picgo.upload(localImages)
