@@ -1,5 +1,6 @@
 src/node_modules
 src/images
 package-lock.json
+# 配置文件过滤
 pic-github.json
 picgo.log

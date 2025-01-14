@@ -4,6 +4,8 @@ const path = require('node:path')
 const fs = require('node:fs')
 const multer = require('multer')
 const cors = require('cors')
+const {mongoConnect} = require('./config/db.js')
+const {View} = require('./models/View.model.js')
 
 //配置加载环境变量
 require('dotenv').config()
@@ -79,7 +81,13 @@ app.post('/upload',upload.any(),(req,res)=>{
             ...req.body,
             images: images
             }
-            console.log(picInfo)
+            const view = new View(picInfo)
+            const result = await view.save()
+            if(result){
+                console.log("mongodb update success!")
+            }else{
+                console.log("mongodb update failed!")
+            }
         })()
         res.json({
             success: true,
@@ -95,5 +103,6 @@ app.post('/upload',upload.any(),(req,res)=>{
 })
 
 app.listen(process.env.PORT,process.env.IP,()=>{
+    mongoConnect()
     console.log("listen to http://localhost:"+process.env.PORT)
 })
