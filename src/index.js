@@ -4,12 +4,9 @@ const path = require('node:path')
 const fs = require('node:fs')
 const multer = require('multer')
 const cors = require('cors')
-const { error } = require('node:console')
 
-//环境变量
-const PORT=3000
-const IP='0.0.0.0'
-const PIC_CONFIG='../pic-github.json'
+//配置加载环境变量
+require('dotenv').config()
 
 //配置storage规则
 const storage = multer.diskStorage({
@@ -29,7 +26,7 @@ const storage = multer.diskStorage({
   })
 
 const upload = multer({ storage: storage })
-const picgo = new PicGo(PIC_CONFIG)
+const picgo = new PicGo(process.env.PIC_CONFIG)
 const app=express()
 
 //全局中间件
@@ -97,6 +94,6 @@ app.post('/upload',upload.any(),(req,res)=>{
     }
 })
 
-app.listen(PORT,IP,()=>{
-    console.log("listen to http://localhost:"+PORT)
+app.listen(process.env.PORT,process.env.IP,()=>{
+    console.log("listen to http://localhost:"+process.env.PORT)
 })
