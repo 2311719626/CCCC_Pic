@@ -1,16 +1,20 @@
-### 关于Picgo集成
+### Picgo(express集成)
 
-    -- 关于集成picgo的一个实现
+    -- 本仓库只实现最小化Picgo的express集成，实际集成已在核心仓库实现
 
-#### 需求
+[核心仓库](https://github.com/2311719626/CCCC_Project)
+
+#### 主要需求
 
 1、开发测试环境:`github`
 
 2、生产环境:`aliyun oss`
 
-3、作为项目图片存储解决方案
+3、作为web项目图片存储解决方案
 
-#### 想法
+4、数据库映射资源与图片
+
+#### 设计
 
 在查阅了相关文档后，发现`Picgo`提供了集成到`nodejs`项目功能，同时允许通过配置文件定向上传到指定图床仓库，因此可以通过接口直接集成到现有`express`项目当中
 
@@ -20,7 +24,7 @@
 
 ```javascript
 const Picgo = require('picgo')
-const picgo = new Picgo('/path/to/config')
+const picgo = new Picgo('/path/to/picbed_config.json')
 ```
 
 > github图床配置
@@ -59,7 +63,7 @@ const picgo = new Picgo('/path/to/config')
 }
 ```
 
-#### 实现过程
+#### 实现
 
 1、相关接口
 
